@@ -1,0 +1,33 @@
+package br.com.destaxa.v8.coletor.shipay.infrastructure.integration.rest.transactions;
+
+import br.com.destaxa.v8.coletor.shipay.application.dto.response.ShipayTerminalResponseDTO;
+import br.com.destaxa.v8.coletor.shipay.infrastructure.integration.rest.configuration.CheckResponseUtil;
+import feign.Headers;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.cloud.openfeign.FeignClientProperties;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+
+@FeignClient(name = "conciliation-api", url = "${integration.shipay.url}", configuration = FeignClientProperties.FeignClientConfiguration.class )
+@Headers(value = "Content-Type: application/json")
+public interface TerminalIntegrationClient {
+
+    static final Logger LOGGER = LoggerFactory.getLogger(TerminalIntegrationClient.class);
+
+    @GetMapping(value = "/stores-pos/{store_uuid}")
+    @Headers({ "Content-Type: application/json", "Authorization: Bearer {token}" })
+    ResponseEntity<List<ShipayTerminalResponseDTO>> getStoresTerminal(@RequestHeader("Authorization") String token, @RequestParam("customer_id") String customerId, @PathVariable("store_uuid") String storeUUID);
+
+    default ResponseEntity<Object> defaultFallback(String customerId, Throwable cause) {
+        LOGGER.error("INFRASTRUCTURE - INTEGRATION - EXCEPTION - Fallback method called due to: {}", cause.getMessage(),
+                cause);
+        return CheckResponseUtil.getErrorResponseEntity(cause);
+    }
+}

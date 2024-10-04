@@ -1,0 +1,113 @@
+application:
+  name: coletor-shipay
+
+#############################################################################
+## Profile configuration
+#############################################################################
+
+spring:
+  config:
+    activate:
+      on-profile: prd
+
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health, info, env, metrics, scheduledtasks
+
+#############################################################################
+## Server configuration
+#############################################################################
+
+server:
+  port: ${PORT:8085}
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types: application/json
+
+#############################################################################
+## Datasource configuration
+#############################################################################
+
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+
+r2dbc:
+  url: r2dbc:postgresql://10.44.0.1:45432/destaxa_conciliation
+  host: 10.44.0.1
+  port: 45432
+  database: destaxa_conciliation
+  username: laraujo
+  password: Leonardo#2024@
+  properties:
+    schema: public
+
+pool:
+  enabled: true
+  initial-size: 5000
+  max-size: 8000
+  max-idle-time: 10000
+  max-active: 8000
+
+#############################################################################
+## Management configuration
+#############################################################################
+
+logging:
+  level:
+    io.r2dbc.spi: DEBUG
+    org.springframework.r2dbc.core: DEBUG
+
+
+integration:
+  shipay:
+    url: https://api-staging.shipay.com.br
+    auth:
+      access-key: pXKu-A9qecYmJJOHazJhCA
+      pos-product-id: 3cd9ac70-0477-4f18-8cc9-f24ac86e3d54
+
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 10000
+  httpclient:
+    disableSslValidation: true
+    enabled: false
+  okhttp:
+    enabled: true
+  circuitbreaker:
+    enabled: true
+  retry:
+    maxAttempts: 2
+    delay:
+      initial: 1000
+      max: 1
+  threadpool:
+    default:
+      coreSize: 50
+      maximumSize: 150
+      maxQueueSize: 1900
+
+
+#############################################################################
+## Scheduler configuration
+#############################################################################
+
+scheduler:
+  cron: "0 0/5 * * * ?"
+  thread:
+    pool:
+      size: 10 #${THREAD_POOL_SIZE}
+
+pod:
+  name: destaxa-shipay-colector-pod-local-leonardo-1
