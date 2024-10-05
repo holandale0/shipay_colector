@@ -1,0 +1,1 @@
+![Fluxo da aplicação:](diagrams/colector2.png)
