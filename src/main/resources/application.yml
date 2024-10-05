@@ -40,14 +40,14 @@ server:
     driver-class-name: org.postgresql.Driver
 
 r2dbc:
-  url: r2dbc:postgresql://10.44.0.1:45432/destaxa_conciliation
-  host: 10.44.0.1
-  port: 45432
-  database: destaxa_conciliation
-  username: laraujo
-  password: Leonardo#2024@
+  url: {{R2DBC_URL}}
+  host: {{R2DBC_HOST}}
+  port: {{R2DBC_PORT}}
+  database: {{R2DBC_DATABASE}}
+  username: {{R2DBC_USER}}
+  password: {{R2DBC_PASS}}
   properties:
-    schema: public
+    schema: {{R2DBC_SCHEMA}}
 
 pool:
   enabled: true
@@ -68,10 +68,10 @@ logging:
 
 integration:
   shipay:
-    url: https://api-staging.shipay.com.br
+    url: {{INTEGRATION_URL}}
     auth:
-      access-key: pXKu-A9qecYmJJOHazJhCA
-      pos-product-id: 3cd9ac70-0477-4f18-8cc9-f24ac86e3d54
+      access-key: {{INTEGRATION_KEY}}
+      pos-product-id: {{INTEGRATION_ID}}
 
 
 feign:
@@ -110,4 +110,4 @@ scheduler:
       size: 10 #${THREAD_POOL_SIZE}
 
 pod:
-  name: destaxa-shipay-colector-pod-local-leonardo-1
+  name: pod-local-1
