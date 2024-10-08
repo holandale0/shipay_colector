@@ -1,24 +1,24 @@
 version: '3.5'
 
 services:
-  destaxa-plan:
-    container_name: destaxa-shipay-colector
+  gthb-plan:
+    container_name: gthb-shipay-colector
     image: postgres:13.6
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-sa}
       PGDATA: /data/postgres
-      POSTGRES_DB: destaxa_conciliation
+      POSTGRES_DB: gthb_conciliation
     volumes:
-      - destaxashipay:/data/postgres
+      - gthbshipay:/data/postgres
     ports:
       - "45440:45432"
     networks:
-      - destaxashipay
+      - gthbshipay
     restart: unless-stopped
 
 networks:
-  destaxaplan:
+  gthbplan:
     driver: bridge
 volumes:
-  destaxaplan:
+  gthbplan:

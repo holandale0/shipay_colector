@@ -8,7 +8,7 @@
     <version>3.2.7</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>br.com.destaxa.v8.coletor.shipay</groupId>
+  <groupId>br.com.coletor.shipay</groupId>
   <artifactId>coletor-shipay</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>destaxa-shipay-colector</name>
