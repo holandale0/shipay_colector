@@ -31,18 +31,18 @@ public class TracingAspect {
 		this.otel = otel;
 	}
 
-	@Around("execution(* *..destaxa..application..*.*(..))")
+	@Around("execution(* *..coletor..application..*.*(..))")
 	public Object aroundApplicationMethod(ProceedingJoinPoint joinPoint) throws Throwable {
 		return aroundMethod(joinPoint);
 	}
 
-	@Around("execution(* *..destaxa..domain..*.*(..))")
+	@Around("execution(* *..coletor..domain..*.*(..))")
 	public Object aroundDomainMethod(ProceedingJoinPoint joinPoint) throws Throwable {
 		return aroundMethod(joinPoint);
 	}
 
 	public Object aroundMethod(ProceedingJoinPoint joinPoint) throws Throwable {
-		Tracer tracer = otel.getTracer("br.com.destaxa.v8.colector.vooo", "1.0");
+		Tracer tracer = otel.getTracer("br.com.colector.vooo", "1.0");
 		Signature signature = joinPoint.getSignature();
 		Class<?> methodClass = signature.getDeclaringType();
 		String methodFullName = methodClass.getSimpleName() + "." + signature.getName();
